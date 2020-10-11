@@ -1,0 +1,54 @@
+import random
+import sys
+
+
+def rand_ints_nodup(a, b, k):
+    ns = []
+    while len(ns) < k:
+        n = random.randint(a, b)
+        if not n in ns:
+            ns.append(n)
+    return ns
+
+
+#randomword = {"cat":["animal", "pet", "small", "furry", "feline"], "dog":["pet", "small", "furry", "animal"], "pencil":["school","writing and drawing", "graphite", "pens"], "shoe":["clothing", "essential", "sock"],"cake":["food", "dessert", "many types", "sponge"], }
+
+hintWord = [["animal", "pet", "small", "furry", "feline"], ["pet", "small", "furry", "animal"], ["school","writing and drawing", "graphite", "pens"], ["clothing", "essential", "sock"], ["food", "dessert", "many types", "sponge"]]
+answer = ["cat", "dog", "pencil", "shoe", "cake"]
+
+print("Welcome to the Guessing Game!")
+print("I'll choose a word...")
+
+col = []
+for x in hintWord:
+    if type(x) == list:
+        col.append(len(x))
+    else:
+        col.append(1)        
+print(col)
+
+questionNumber = 0
+
+questionOrder = rand_ints_nodup(0, len(col) - 1, len(col))
+correctAnswer = 0
+
+while (questionNumber < len(col)):
+
+    hintOrder = rand_ints_nodup(0, col[questionOrder[questionNumber]] - 1, col[questionOrder[questionNumber]])
+
+    isCorrect = 0
+    hintCount = 0;
+    print("Guess a word that is similar to my word!")
+    while (isCorrect == 0 and hintCount < col[questionOrder[questionNumber]] ):
+        print ("Hint " + str(hintCount + 1) + ": " + hintWord[questionOrder[questionNumber]][hintOrder[hintCount]] + " (out of " + str(col[questionOrder[questionNumber]]) + ")" )
+        inputWord = input()
+
+        if (inputWord == answer[questionOrder[questionNumber]]):
+            isCorrect = 1
+        else:
+            hintCount += 1
+
+    correctAnswer += isCorrect
+    questionNumber += 1
+
+print ("Number of correct answer: " + str(correctAnswer) )
